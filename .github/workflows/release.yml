@@ -1,0 +1,48 @@
+name: release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - { goos: linux, goarch: amd64 }
+          - { goos: linux, goarch: arm64 }
+          - { goos: darwin, goarch: amd64 }
+          - { goos: darwin, goarch: arm64 }
+          - { goos: windows, goarch: amd64 }
+          - { goos: windows, goarch: arm64 }
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-go@v6
+        with:
+          go-version: '1.23'
+      - name: build
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+        run: |
+          bin=oci2mtk
+          [ "$GOOS" = windows ] && bin=oci2mtk.exe
+          go build -trimpath -ldflags='-s -w' -o "$bin" .
+          out="oci2mtk-${GITHUB_REF_NAME}-${GOOS}-${GOARCH}"
+          if [ "$GOOS" = windows ]; then
+            zip "$out.zip" "$bin"
+          else
+            tar czf "$out.tar.gz" "$bin"
+          fi
+      - name: extract changelog
+        run: awk '/^## \[/{if(p)exit; p=1} p' CHANGELOG.md > RELEASE_NOTES.md
+      - uses: softprops/action-gh-release@v3
+        with:
+          body_path: RELEASE_NOTES.md
+          files: |
+            oci2mtk-*.tar.gz
+            oci2mtk-*.zip
