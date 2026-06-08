@@ -34,9 +34,9 @@ jobs:
           go build -trimpath -ldflags='-s -w' -o "$bin" .
           out="oci2mtk-${GITHUB_REF_NAME}-${GOOS}-${GOARCH}"
           if [ "$GOOS" = windows ]; then
-            zip "$out.zip" "$bin"
+            zip "$out.zip" "$bin" README.md README.ja.md LICENSE
           else
-            tar czf "$out.tar.gz" "$bin"
+            tar czf "$out.tar.gz" "$bin" README.md README.ja.md LICENSE
           fi
       - name: extract changelog
         run: awk '/^## \[/{if(p)exit; p=1} p' CHANGELOG.md > RELEASE_NOTES.md
