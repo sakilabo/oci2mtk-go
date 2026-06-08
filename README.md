@@ -10,13 +10,14 @@ It supports OCI-compliant container images produced in a containerd-enabled envi
 
 ## Usage
 
-`oci2mtk <IN_FILE> [-d] [-f] [-p <PLATFORM>] [-t <TAG>] [-o <OUT_FILE>]`
+`oci2mtk <IN_FILE> [-d] [-f] [-p <PLATFORM>] [-t <TAG>] [-s] [-o <OUT_FILE>]`
 
 - `<IN_FILE>` input file name — accepts `.tar.gz` in addition to `.tar`
 - `-d` dry run — run the conversion without actually writing the output
 - `-f` overwrite — overwrite `<OUT_FILE>` if it already exists
 - `-p <PLATFORM>` platform to select (usually not needed)
 - `-t <TAG>` tag to select (usually not needed)
+- `-s` strip — remove the docker.io domain decoration that `docker save` adds to the tag
 - `-o <OUT_FILE>` output file name — the extension can be `.tar` or `.tar.gz`
 
 ### Exit codes

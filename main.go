@@ -44,6 +44,7 @@ type options struct {
 	tag      string
 	dryRun   bool
 	force    bool
+	strip    bool
 }
 
 func run(argv []string) int {
@@ -67,6 +68,7 @@ func run(argv []string) int {
 	fs.StringVar(&o.platform, "p", "", "target platform os/arch[/variant]")
 	fs.StringVar(&o.tag, "t", "", "target tag (RepoTag)")
 	fs.StringVar(&o.outFile, "o", "", "output file")
+	fs.BoolVar(&o.strip, "s", false, "strip the docker.io/library/ prefix from the image name")
 	if err := fs.Parse(argv[2:]); err != nil {
 		return exitUsage
 	}
@@ -80,7 +82,7 @@ func run(argv []string) int {
 }
 
 func usage() {
-	fmt.Fprintln(os.Stderr, "usage: oci2mtk <IN_FILE> [-d] [-f] [-p <PLATFORM>] [-t <TAG>] [-o <OUT_FILE>]")
+	fmt.Fprintln(os.Stderr, "usage: oci2mtk <IN_FILE> [-d] [-f] [-s] [-p <PLATFORM>] [-t <TAG>] [-o <OUT_FILE>]")
 }
 
 // information about the image structure carried through the conversion
@@ -100,7 +102,7 @@ func process(o options) int {
 	var docs parsedDocs
 
 	// scan the input image archive and build the index
-	index, err := buildIndex(o.inFile, o.platform, o.tag, &docs)
+	index, err := buildIndex(o.inFile, o.platform, o.tag, o.strip, &docs)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "error: failed to read input: %v.\n", err)
 		return exitFail
@@ -148,7 +150,7 @@ type entryInfo struct {
 //   - keep the size and leading bytes of each entry
 //   - read the content of index.json and the manifest
 //     however, the OCI manifest may not be read depending on its size or read order
-func buildIndex(file, platform, tag string, docs *parsedDocs) (map[string]*entryInfo, error) {
+func buildIndex(file, platform, tag string, strip bool, docs *parsedDocs) (map[string]*entryInfo, error) {
 	index := make(map[string]*entryInfo)
 	err := eachEntry(file, func(name string, hdr *tar.Header, tr *tar.Reader) error {
 		// ignore entries with an empty name
@@ -190,7 +192,7 @@ func buildIndex(file, platform, tag string, docs *parsedDocs) (map[string]*entry
 				docs.ociIndex = &idx
 				// select and finalize the target manifest here. once the name is known,
 				// the manifest body can be read from a later entry
-				resolveManifest(&idx, platform, tag, docs)
+				resolveManifest(&idx, platform, tag, strip, docs)
 			}
 		case topMeta && name == "manifest.json":
 			// narrow down to a single manifest and a single tag
@@ -446,7 +448,7 @@ func planFromOCI(file string, index map[string]*entryInfo, docs *parsedDocs) (*p
 }
 
 // select the target manifest from the OCI index
-func resolveManifest(idx *ociIndex, platform, tag string, docs *parsedDocs) {
+func resolveManifest(idx *ociIndex, platform, tag string, strip bool, docs *parsedDocs) {
 	desc, err := pickManifest(idx.Manifests, platform, tag)
 	switch {
 	case err != nil:
@@ -461,7 +463,14 @@ func resolveManifest(idx *ociIndex, platform, tag string, docs *parsedDocs) {
 			return
 		}
 		docs.ociManName = mn
-		docs.ociTag = desc.Annotations["org.opencontainers.image.ref.name"]
+		if name := desc.Annotations["io.containerd.image.name"]; name != "" {
+			if strip {
+				name = strings.TrimPrefix(name, "docker.io/library/")
+			}
+			docs.ociTag = name
+		} else {
+			docs.ociTag = desc.Annotations["org.opencontainers.image.ref.name"]
+		}
 	}
 }
 
