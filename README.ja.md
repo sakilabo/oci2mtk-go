@@ -8,9 +8,11 @@
 
 containerd が有効な環境で出力された OCI 準拠のコンテナイメージや、docker-archive 互換のコンテナイメージに対応しています。
 
+GitHub: [https://github.com/sakilabo/oci2mtk-go](https://github.com/sakilabo/oci2mtk-go)
+
 ## 使い方
 
-`oci2mtk <IN_FILE> [-d] [-f] [-p <PLATFORM>] [-t <TAG>] [-o <OUT_FILE>]`
+`oci2mtk <IN_FILE> [-d] [-f] [-p <PLATFORM>] [-t <TAG>] [-s] [-o <OUT_FILE>]`
 
 - `<IN_FILE>` 入力ファイル名 ― `.tar` のほか `.tar.gz` も受け付ける
 - `-d` dry run ― 実際の書き出しをせずに変換処理を実行する
@@ -43,9 +45,9 @@ containerd が有効な環境で出力された OCI 準拠のコンテナイメ�
 
 ## ライセンス
 
-UPL 1.0
+[UPL 1.0](LICENSE)
 
-## 著者
+## 作者
 
-株式会社さきラボ
+[株式会社さきラボ](https://さきラボ.jp)
 

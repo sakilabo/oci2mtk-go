@@ -8,6 +8,8 @@ A tool that converts `.tar` files saved with `docker save` into a format for Mik
 
 It supports OCI-compliant container images produced in a containerd-enabled environment, as well as docker-archive compatible container images.
 
+GitHub: [https://github.com/sakilabo/oci2mtk-go](https://github.com/sakilabo/oci2mtk-go)
+
 ## Usage
 
 `oci2mtk <IN_FILE> [-d] [-f] [-p <PLATFORM>] [-t <TAG>] [-s] [-o <OUT_FILE>]`
@@ -43,8 +45,8 @@ The conditions below were confirmed on RouterOS 7.21. **This is not official Mik
 
 ## License
 
-UPL 1.0
+[UPL 1.0](LICENSE)
 
 ## Author
 
-Sakilabo Corporation Ltd.
+[Sakilabo Corporation Ltd.](https://sakilabo.jp)
