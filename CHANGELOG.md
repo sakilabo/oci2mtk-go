@@ -4,6 +4,13 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1] - 2026-06-08
+
+### Added
+
+- Bundle README and LICENSE in the release archives.
+- Repository, license, and author links in the READMEs.
+
 ## [1.1.0] - 2026-06-08
 
 ### Added
