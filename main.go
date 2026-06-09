@@ -24,6 +24,9 @@ const (
 	exitUsage     = 3 // argument error
 )
 
+// version is set at build time via -ldflags "-X main.version=..."
+var version = "dev"
+
 // upper limit on the number of layers (1,000 = 0 to 999)
 const maxLayers = 1000
 
@@ -48,6 +51,8 @@ type options struct {
 }
 
 func run(argv []string) int {
+	fmt.Fprintf(os.Stderr, "oci2mtk %s\n", version)
+
 	if len(argv) < 2 {
 		usage()
 		return exitUsage

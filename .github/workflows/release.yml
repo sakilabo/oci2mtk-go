@@ -31,7 +31,7 @@ jobs:
         run: |
           bin=oci2mtk
           [ "$GOOS" = windows ] && bin=oci2mtk.exe
-          go build -trimpath -ldflags='-s -w' -o "$bin" .
+          go build -trimpath -ldflags="-s -w -X main.version=${GITHUB_REF_NAME}" -o "$bin" .
           out="oci2mtk-${GITHUB_REF_NAME}-${GOOS}-${GOARCH}"
           if [ "$GOOS" = windows ]; then
             zip "$out.zip" "$bin" README.md README.ja.md LICENSE
