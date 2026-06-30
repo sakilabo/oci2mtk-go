@@ -1,3 +1,3 @@
-module oci2mtk
+module github.com/sakilabo/oci2mtk-go
 
 go 1.18

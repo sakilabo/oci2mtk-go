@@ -10,6 +10,23 @@ It supports OCI-compliant container images produced in a containerd-enabled envi
 
 GitHub: [https://github.com/sakilabo/oci2mtk-go](https://github.com/sakilabo/oci2mtk-go)
 
+## Installation
+
+Download a binary for your platform from the [GitHub Releases](https://github.com/sakilabo/oci2mtk-go/releases) page.
+
+Release archives are named like:
+
+```text
+oci2mtk-vX.Y.Z-linux-amd64.tar.gz
+oci2mtk-vX.Y.Z-windows-amd64.zip
+```
+
+If you have Go installed, you can also install the latest version with:
+
+```sh
+go install github.com/sakilabo/oci2mtk-go@latest
+```
+
 ## Usage
 
 `oci2mtk <IN_FILE> [-d] [-f] [-p <PLATFORM>] [-t <TAG>] [-s] [-o <OUT_FILE>]`

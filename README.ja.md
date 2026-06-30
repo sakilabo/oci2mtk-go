@@ -10,6 +10,23 @@ containerd が有効な環境で出力された OCI 準拠のコンテナイメ�
 
 GitHub: [https://github.com/sakilabo/oci2mtk-go](https://github.com/sakilabo/oci2mtk-go)
 
+## インストール
+
+[GitHub Releases](https://github.com/sakilabo/oci2mtk-go/releases) からバイナリをダウンロードできます。
+
+リリースアーカイブのファイル名は以下の形式です。
+
+```text
+oci2mtk-vX.Y.Z-linux-amd64.tar.gz
+oci2mtk-vX.Y.Z-windows-amd64.zip
+```
+
+Go がインストールされている環境では、以下のコマンドでも最新版をインストールできます。
+
+```sh
+go install github.com/sakilabo/oci2mtk-go@latest
+```
+
 ## 使い方
 
 `oci2mtk <IN_FILE> [-d] [-f] [-p <PLATFORM>] [-t <TAG>] [-s] [-o <OUT_FILE>]`
