@@ -24,7 +24,7 @@ oci2mtk-vX.Y.Z-windows-amd64.zip
 If you have Go installed, you can also install the latest version with:
 
 ```sh
-go install github.com/sakilabo/oci2mtk-go@latest
+go install github.com/sakilabo/oci2mtk-go/cmd/oci2mtk@latest
 ```
 
 ## Usage

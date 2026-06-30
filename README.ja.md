@@ -24,7 +24,7 @@ oci2mtk-vX.Y.Z-windows-amd64.zip
 Go がインストールされている環境では、以下のコマンドでも最新版をインストールできます。
 
 ```sh
-go install github.com/sakilabo/oci2mtk-go@latest
+go install github.com/sakilabo/oci2mtk-go/cmd/oci2mtk@latest
 ```
 
 ## 使い方
